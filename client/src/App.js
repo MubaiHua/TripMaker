@@ -1,25 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import React, { Component } from 'react';
+import { GoogleMap, LoadScript } from '@react-google-maps/api';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+
+const containerStyle = {
+  width: '400px',
+  height: '400px'
+};
+
+const center = {
+  lat: -34,
+  lng: 151
+};
+
+class MyComponents extends Component {
+  render() {
+    return (
+      <LoadScript
+        googleMapsApiKey="AIzaSyCfB1IHaGFizVCHLWOZJsm3-UwabmKV-eo"
+      >
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={10}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          { /* Child components, such as markers, info windows, etc. */ }
+          <></>
+        </GoogleMap>
+      </LoadScript>
+    )
+  }
 }
 
-export default App;
+export default MyComponents;
