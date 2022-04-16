@@ -1,10 +1,11 @@
 const Map = require('../model/mapModel');
 
 exports.createMap = async (req, res) => {
-    const {code} = req.body;
+    const {code, points} = req.body;
     try {
         const newMap = await Map.create({
-            code: code
+            code: code,
+            points: points
         });
         res.status(201).json({
             status: "success",
