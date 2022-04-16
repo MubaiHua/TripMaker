@@ -12,15 +12,15 @@ const MapSchema = new Schema({
             type: String,
         },
         lat: {
-            type: Double,
+            type: Number,
             required: true,
         },
         lng: {
-            type: Double,
+            type: Number,
             required: true,
         },
         index: {
-            type: Integer,
+            type: Number,
             required: true,
         }
     }],
