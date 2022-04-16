@@ -13,7 +13,7 @@ const MapSchema = new Schema({
         },
         lat: {
             type: Double,
-            requried: true,
+            required: true,
         },
         lng: {
             type: Double,
