@@ -17,18 +17,23 @@ const center = {
 class MyComponents extends Component {
   render() {
     return (
-      <LoadScript
-        googleMapsApiKey="AIzaSyCfB1IHaGFizVCHLWOZJsm3-UwabmKV-eo"
-      >
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={10}
+      <>
+        <h1>Mappable</h1>
+        <h4>The map:</h4>
+        <LoadScript
+          googleMapsApiKey="AIzaSyCfB1IHaGFizVCHLWOZJsm3-UwabmKV-eo"
         >
-          { /* Child components, such as markers, info windows, etc. */ }
-          <></>
-        </GoogleMap>
-      </LoadScript>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={10}
+          >
+            { /* Child components, such as markers, info windows, etc. */ }
+            <></>
+          </GoogleMap>
+        </LoadScript>
+
+      </>
     )
   }
 }
