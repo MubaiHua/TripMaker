@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: "Roboto Slab";
+    src: url('./fonts/RobotoSlab-Regular.ttf')
+  }
+}
+
 /*
 body {
   margin: 0;
