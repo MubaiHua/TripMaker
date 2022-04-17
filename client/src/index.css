@@ -23,9 +23,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-<<<<<<< HEAD
-*/
-=======
 
 /* 
  * Always set the map height explicitly to define the size of the div element
@@ -118,4 +115,3 @@ body {
 #target {
   width: 345px;
 }
->>>>>>> JS-Map
