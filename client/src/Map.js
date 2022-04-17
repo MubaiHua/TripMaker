@@ -103,11 +103,8 @@ export default function Map() {
     <div className="h-full flex flex-row">
       <LeftMenu/>
       <Search handle_search_add_point={handle_search_add_point} />
-<<<<<<< HEAD
       <button onClick = {onClickSubmit} > Submit </button>
       <button onClick = {onClickDiscard} > Discard </button>
-=======
->>>>>>> refs/remotes/origin/main
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
