@@ -1,6 +1,8 @@
 ## Trip Maker
 A collaborative online map such that multiple users can plan a trip route with several stops synchronously. 
 
+<img src="images/Trip Maker Screenshot.png" width="550">
+
 ### Technology Stack
 <img src="images/Tech Stack Screenshot.png" width="550">
 
