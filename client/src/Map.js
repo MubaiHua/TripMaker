@@ -93,9 +93,8 @@ export default function Map() {
   if (!isLoaded) return "Loading Maps";
 
   const onClickSubmit = () => {
-    console.log("123");
     const config = { headers: { "Content-Type": "application/json" } };
-    const code = "123456";
+    const code = sessionStorage.getItem("code");
     const body = { code, points: markers };
     const res = axios.post(
       "http://localhost:8080/api/mapRoutes/updateMap",
