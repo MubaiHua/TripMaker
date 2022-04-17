@@ -188,8 +188,8 @@ function MapDirectionsRenderer(props) {
 
   useEffect(() => {
     const { places, travelMode } = props;
-
     if(places.length !== 0){
+
         const waypoints = places.map((p) => ({
             location: { lat: p.lat, lng: p.lng },
             stopover: true,
@@ -215,7 +215,7 @@ function MapDirectionsRenderer(props) {
             }
           );
     }
-  });
+  }, [props]);
 
   return <DirectionsRenderer directions={directions} />;
 }
