@@ -212,7 +212,6 @@ function MapDirectionsRenderer(props) {
 
   useEffect(() => {
     const { places, travelMode } = props;
-    console.log(places)
     if (places.length > 1) {
       const waypoints = places.map((p) => ({
         location: { lat: p.lat, lng: p.lng },

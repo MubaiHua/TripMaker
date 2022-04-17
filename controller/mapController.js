@@ -41,3 +41,22 @@ exports.getMap = async (req, res) => {
         res.status(401).json(err.message);
     }
 }
+
+exports.findCode = async (req, res) =>{
+    const {code} = req.body;
+    try {
+        const foundCode = await Map.findOne({code: code});
+        if(foundCode!==null){
+            res.status(201).json({
+                status: "found"
+            });
+        }
+        else{
+            res.status(201).json({
+                points: "not found"
+            });
+        }
+    }    catch(err){
+        res.status(401).json(err.message);
+    }
+}
