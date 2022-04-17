@@ -25,7 +25,7 @@ import RightPanel from "./right_panel";
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  width: "100vw",
+  width: "60vw",
   height: "100vh",
 };
 
@@ -195,7 +195,7 @@ function Search(props) {
   return (
     <div className="absolute top-123px left-25px">
       <Combobox
-        className="w-324px"
+        className="w-300px"
         onSelect={async (address) => {
           setValue(address, false);
           clearSuggestions();
@@ -279,7 +279,7 @@ function MapDirectionsRenderer(props) {
 
 function LeftMenu(props) {
   return (
-    <div className="w-2/5 bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
+    <div className="w-1/4 bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
       <div className="font-roboto-slab mb-5px">Search for Destination</div>
       <form className="flex flex-col">
         <input

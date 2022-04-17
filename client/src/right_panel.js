@@ -29,7 +29,7 @@ const App = (props) => {
           }
         }}
       >
-        <ListContainer>
+        <ListContainer className="absolute right-30px">
           <h1>The List</h1>
           <Droppable droppableId="droppable-1">
             {(provided, _) => (
