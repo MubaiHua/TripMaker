@@ -52,7 +52,10 @@ export default function Map() {
   useEffect(() => {
     async function fetchPoints() {
       const config = { headers: { "Content-Type": "application/json" } };
-      const code = "123456";
+      const code = sessionStorage.getItem("code");
+      if(code === null){
+        window.location.href = "/";
+      }
       const body = { code };
       const res = await axios.post(
         "http://localhost:8080/api/mapRoutes/getMap",
