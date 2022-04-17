@@ -88,10 +88,23 @@ export default function Map() {
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
+  const onClickSubmit = () => {
+    const config = { headers: { "Content-Type": "application/json" } };
+    const code = "123456";
+    const body = { code, points: markers };
+    const res = axios.post("http://localhost:8080/api/mapRoutes/updateMap", body, config);
+    console.log(res);
+  }
+
+  const onClickDiscard = () => {
+    setMarkers((current)=>current.slice(0,-1));
+  }
+
   return (
     <div>
       <Search handle_search_add_point={handle_search_add_point} />
-
+      <button onClick = {onClickSubmit} > Submit </button>
+      <button onClick = {onClickDiscard} > Discard </button>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
