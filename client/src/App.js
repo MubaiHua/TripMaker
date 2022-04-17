@@ -20,6 +20,7 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+import axios from 'axios';
 
 const libraries = ["places"];
 
@@ -48,44 +49,32 @@ export default function App() {
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
 
-  const onMapClick = React.useCallback((event) => {
+  const handle_search_add_point = (point) =>{
     setMarkers((current) => [
       ...current,
       {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
+        lat: point.lat,
+        lng: point.lng,
         order:
           current === undefined || current.length === 0
             ? 0
             : current[current.length - 1].order + 1,
       },
     ]);
-  }, []);
-
-  const mapRef = React.useRef();
-  const onMapLoad = React.useCallback((map) => {
-    mapRef.current = map;
-  }, []);
-
-  const panTo = React.useCallback(({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(18);
-  }, []);
+  }
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
   return (
     <div>
-      <Search panTo={panTo} />
+      <Search handle_search_add_point = {handle_search_add_point}/>
 
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
         center={center}
         options={options}
-        onClick={onMapClick}
-        onLoad={onMapLoad}
       >
         {markers.map((marker) => (
           <Marker
@@ -115,7 +104,7 @@ export default function App() {
   );
 }
 
-function Search({ panTo }) {
+function Search(props) {
   const {
     ready,
     value,
@@ -138,7 +127,7 @@ function Search({ panTo }) {
         try {
           const results = await getGeocode({ address });
           const { lat, lng } = await getLatLng(results[0]);
-          panTo({ lat, lng });
+          props.handle_search_add_point({lat, lng});
         } catch (error) {
           console.log("Error");
         }
