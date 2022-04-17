@@ -1,13 +1,10 @@
-import logo from './logo.svg';
-import React, { Component } from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import React from 'react';
 import NavBar from './components/navBar'
 import Map from './Map.js'
 import AuthPage from './components/authPage';
 
-function App() {
+const MainPage  = () => {
   return (
-    /*
     <div className='flex-col h-screen overflow-hidden'>
         <NavBar/>
       <div className='w-2/3 border-x-2 border-pastel-brown'>
@@ -17,10 +14,8 @@ function App() {
         RIGHT MENU
       </div>
     </div>
-    */
-   <AuthPage/>
   );
 }
 
-export default App;
+export default MainPage;
 

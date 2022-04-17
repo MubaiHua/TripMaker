@@ -6,7 +6,7 @@ import {
   InfoWindow,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import mapStyle from "./map_style";
+import mapStyle from "./map-style";
 import usePlaceAutocomplete, {
   getGeocode,
   getLatLng,
@@ -47,6 +47,7 @@ export default function Map() {
 
   const [markers, setMarkers] = React.useState([]);
   const [selected, setSelected] = React.useState(null);
+  const [hasAdded, setHasAdded] = React.useState(false);
 
   useEffect(() => {
     async function fetchPoints() {
@@ -82,29 +83,34 @@ export default function Map() {
             : current[current.length - 1].order + 1,
       },
     ]);
+    setHasAdded(true);
   };
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
   const onClickSubmit = () => {
+    console.log("123");
     const config = { headers: { "Content-Type": "application/json" } };
     const code = "123456";
     const body = { code, points: markers };
-    const res = axios.post("http://localhost:8080/api/mapRoutes/updateMap", body, config);
-    console.log(res);
-  }
+    const res = axios.post(
+      "http://localhost:8080/api/mapRoutes/updateMap",
+      body,
+      config
+    );
+    setHasAdded(false);
+  };
 
   const onClickDiscard = () => {
-    setMarkers((current)=>current.slice(0,-1));
-  }
+    setMarkers((current) => current.slice(0, -1));
+    setHasAdded(false);
+  };
 
   return (
     <div className="h-full flex flex-row">
-      <LeftMenu/>
-      <Search handle_search_add_point={handle_search_add_point} />
-      <button onClick = {onClickSubmit} > Submit </button>
-      <button onClick = {onClickDiscard} > Discard </button>
+      <LeftMenu hasAdded={hasAdded} onClickSubmit={onClickSubmit} onClickDiscard={onClickDiscard} />
+      <Search handle_search_add_point={handle_search_add_point} hasAdded= {hasAdded}/>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
@@ -127,7 +133,10 @@ export default function Map() {
               setSelected(null);
             }}
           >
-            <div> Location lat:{selected.lat} lng:{selected.lng} </div>
+            <div>
+              {" "}
+              Location lat:{selected.lat} lng:{selected.lng}{" "}
+            </div>
           </InfoWindow>
         ) : null}
         <MapDirectionsRenderer
@@ -154,39 +163,45 @@ function Search(props) {
   });
 
   return (
-    <div className="absolute top-123px left-25px"> 
-    <Combobox className="w-324px"
-      onSelect={async (address) => {
-        setValue(address, false);
-        clearSuggestions();
+    <div className="absolute top-123px left-25px">
+      <Combobox
+        className="w-324px"
+        onSelect={async (address) => {
+          setValue(address, false);
+          clearSuggestions();
 
-        try {
-          const results = await getGeocode({ address });
-          const { lat, lng } = await getLatLng(results[0]);
-          props.handle_search_add_point({ lat, lng });
-        } catch (error) {
-          console.log("Error");
-        }
-        console.log(address);
-      }}
-    >
-      <ComboboxInput className="font-roboto-slab w-full outline-0 border-2 border-brownish/50 text-14px h-32px px-5px rounded-sm"
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
+          try {
+            const results = await getGeocode({ address });
+            const { lat, lng } = await getLatLng(results[0]);
+            props.handle_search_add_point({ lat, lng });
+          } catch (error) {
+            console.log("Error");
+          }
+          console.log(address);
         }}
-        disabled={!ready}
-        placeholder="Search for an address"
-      />
-      <ComboboxPopover className="">
-        <ComboboxList className="font-roboto-slabtext-14px border-green-yellow/75 border-2 rounded-sm">
-          {status === "OK" &&
-            data.map(({ id, description }) => (
-              <ComboboxOption className="hover:bg-green-yellow" key={id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
+      >
+        <ComboboxInput
+          className="font-roboto-slab w-full outline-0 border-2 border-brownish/50 text-14px h-32px px-5px rounded-sm"
+          value={value}
+          onChange={!props.hasAdded? (e) => {
+            setValue(e.target.value);
+          } : null}
+          disabled={!ready}
+          placeholder="Search for an address"
+        />
+        <ComboboxPopover className="">
+          <ComboboxList className="font-roboto-slabtext-14px border-green-yellow/75 border-2 rounded-sm">
+            {status === "OK" &&
+              data.map(({ id, description }) => (
+                <ComboboxOption
+                  className="hover:bg-green-yellow"
+                  key={id}
+                  value={description}
+                />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
     </div>
   );
 }
@@ -195,50 +210,56 @@ function MapDirectionsRenderer(props) {
   let [directions, setDirections] = React.useState();
   let [error, setError] = React.useState();
 
-
   useEffect(() => {
     const { places, travelMode } = props;
-    if(places.length > 1){
+    console.log(places)
+    if (places.length > 1) {
+      const waypoints = places.map((p) => ({
+        location: { lat: p.lat, lng: p.lng },
+        stopover: true,
+      }));
 
-        const waypoints = places.map((p) => ({
-            location: { lat: p.lat, lng: p.lng },
-            stopover: true,
-          }));
-      
-          const origin = waypoints.shift().location;
-          const destination = waypoints.pop().location;
-      
-          const directionsService = new window.google.maps.DirectionsService();
-          directionsService.route(
-            {
-              origin: origin,
-              destination: destination,
-              travelMode: travelMode,
-              waypoints: waypoints,
-            },
-            (result, status) => {
-              if (status === window.google.maps.DirectionsStatus.OK) {
-                setDirections(result);
-              } else {
-                setError(result);
-              }
-            }
-          );
+      const origin = waypoints.shift().location;
+      const destination = waypoints.pop().location;
+
+      const directionsService = new window.google.maps.DirectionsService();
+      directionsService.route(
+        {
+          origin: origin,
+          destination: destination,
+          travelMode: travelMode,
+          waypoints: waypoints,
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            setDirections(result);
+          } else {
+            setError(result);
+          }
+        }
+      );
     }
   }, [props]);
 
   return <DirectionsRenderer directions={directions} />;
 }
 
-function LeftMenu() {
+function LeftMenu(props) {
   return (
-      <div className="w-full bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
-          <div className="font-roboto-slab mb-5px">
-              Search for Destination
-          </div>
-          <form className="flex flex-col">
-              <input type="text" className="hidden text-14px pl-5px font-roboto-slab border-2 border-pastel-brown-40 h-32px"/>
-          </form>
-      </div>
-  )
+    <div className="w-full bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
+      <div className="font-roboto-slab mb-5px">Search for Destination</div>
+      <form className="flex flex-col">
+        <input
+          type="text"
+          className="hidden text-14px pl-5px font-roboto-slab border-2 border-pastel-brown-40 h-32px"
+        />
+      </form>
+      <br />
+      <br />
+      <br />
+      {props.hasAdded? <button onClick={props.onClickSubmit}>Submit</button> : null}
+      <br />
+      {props.hasAdded? <button onClick={props.onClickDiscard}>Discard</button> : null}
+    </div>
+  );
 }
