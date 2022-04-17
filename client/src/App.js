@@ -12,14 +12,13 @@ function App() {
       <NavBar/>
       <div className='flex-row flex h-full'>
       <LeftMenu/>
-      <div className='w-2/3 border-2'>
-        MAP
+      <div className='w-2/3 border-l-2 border-pastel-brown'>
+        <Map/>
       </div>
-      <div className='w-1/3 border-2'>
+      <div className='w-1/3 border-pastel-brown border-l-2'>
         RIGHT MENU
       </div>
       </div>
-      <Map/>
     </div>
   );
 }
