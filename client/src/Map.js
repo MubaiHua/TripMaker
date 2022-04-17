@@ -91,11 +91,7 @@ export default function Map() {
               setSelected(null);
             }}
           >
-            <div>
-              <h2>
-                Location lat:{selected.lat} lng:{selected.lng}
-              </h2>
-            </div>
+            <div> Location lat:{selected.lat} lng:{selected.lng} </div>
           </InfoWindow>
         ) : null}
       </GoogleMap>
