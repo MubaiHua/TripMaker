@@ -1,4 +1,3 @@
-import "./App.css";
 import React, { Component, useEffect } from "react";
 import {
   GoogleMap,
@@ -25,7 +24,7 @@ import axios from "axios";
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  width: "50vw",
+  width: "100vw",
   height: "100vh",
 };
 
@@ -101,10 +100,14 @@ export default function Map() {
   }
 
   return (
-    <div>
+    <div className="h-full flex flex-row">
+      <LeftMenu/>
       <Search handle_search_add_point={handle_search_add_point} />
+<<<<<<< HEAD
       <button onClick = {onClickSubmit} > Submit </button>
       <button onClick = {onClickDiscard} > Discard </button>
+=======
+>>>>>>> refs/remotes/origin/main
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
@@ -155,7 +158,7 @@ function Search(props) {
 
   return (
     <div className="absolute top-123px left-25px"> 
-    <Combobox
+    <Combobox className="w-324px"
       onSelect={async (address) => {
         setValue(address, false);
         clearSuggestions();
@@ -170,7 +173,7 @@ function Search(props) {
         console.log(address);
       }}
     >
-      <ComboboxInput className="font-roboto-slab w-300px outline-0  border-2 border-brownish/50 text-14px h-32px px-5px w-11/12 rounded-sm"
+      <ComboboxInput className="font-roboto-slab w-full outline-0 border-2 border-brownish/50 text-14px h-32px px-5px rounded-sm"
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
@@ -228,4 +231,17 @@ function MapDirectionsRenderer(props) {
   }, [props]);
 
   return <DirectionsRenderer directions={directions} />;
+}
+
+function LeftMenu() {
+  return (
+      <div className="w-full bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
+          <div className="font-roboto-slab mb-5px">
+              Search for Destination
+          </div>
+          <form className="flex flex-col">
+              <input type="text" className="hidden text-14px pl-5px font-roboto-slab border-2 border-pastel-brown-40 h-32px"/>
+          </form>
+      </div>
+  )
 }
