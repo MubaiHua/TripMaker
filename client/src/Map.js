@@ -279,7 +279,7 @@ function MapDirectionsRenderer(props) {
 
 function LeftMenu(props) {
   return (
-    <div className="w-full bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
+    <div className="w-2/5 bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
       <div className="font-roboto-slab mb-5px">Search for Destination</div>
       <form className="flex flex-col">
         <input
