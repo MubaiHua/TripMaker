@@ -1,10 +1,8 @@
-import logo from './logo.svg';
-import React, { Component } from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import React from 'react';
 import NavBar from './components/navBar'
-import Map from './Map.js'
+import Map from './map.js'
 
-function App() {
+const MainPage  = () => {
   return (
     <div className='flex-col h-screen overflow-hidden'>
         <NavBar/>
@@ -18,5 +16,5 @@ function App() {
   );
 }
 
-export default App;
+export default MainPage;
 
