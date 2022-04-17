@@ -6,7 +6,7 @@ import {
   InfoWindow,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import mapStyle from "./map_style";
+import mapStyle from "./map-style";
 import usePlaceAutocomplete, {
   getGeocode,
   getLatLng,
