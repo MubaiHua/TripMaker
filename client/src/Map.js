@@ -20,6 +20,7 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import axios from "axios";
+import RightPanel from "./right_panel";
 
 const libraries = ["places"];
 
@@ -53,7 +54,7 @@ export default function Map() {
     async function fetchPoints() {
       const config = { headers: { "Content-Type": "application/json" } };
       const code = sessionStorage.getItem("code");
-      if(code === null){
+      if (code === null) {
         window.location.href = "/";
       }
       const body = { code };
@@ -73,6 +74,25 @@ export default function Map() {
     }
     fetchPoints();
   }, []);
+
+  const resetMarkers = (points) => {
+    const newMarker = [];
+    for (let i = 0; i < points.length; i++) {
+      newMarker.push({
+        lat: points[i].lat,
+        lng: points[i].lng,
+      });
+    }
+    setMarkers(newMarker);
+    const config = { headers: { "Content-Type": "application/json" } };
+    const code = sessionStorage.getItem("code");
+    const body = { code, points: newMarker };
+    axios.post(
+      "http://localhost:8080/api/mapRoutes/updateMap",
+      body,
+      config
+    );
+  };
 
   const handle_search_add_point = (point) => {
     setMarkers((current) => [
@@ -111,8 +131,15 @@ export default function Map() {
 
   return (
     <div className="h-full flex flex-row">
-      <LeftMenu hasAdded={hasAdded} onClickSubmit={onClickSubmit} onClickDiscard={onClickDiscard} />
-      <Search handle_search_add_point={handle_search_add_point} hasAdded= {hasAdded}/>
+      <LeftMenu
+        hasAdded={hasAdded}
+        onClickSubmit={onClickSubmit}
+        onClickDiscard={onClickDiscard}
+      />
+      <Search
+        handle_search_add_point={handle_search_add_point}
+        hasAdded={hasAdded}
+      />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
@@ -146,6 +173,7 @@ export default function Map() {
           travelMode={window.google.maps.TravelMode.WALKING}
         />
       </GoogleMap>
+      <RightPanel markers={markers} resetMarkers={resetMarkers} />
     </div>
   );
 }
@@ -185,9 +213,13 @@ function Search(props) {
         <ComboboxInput
           className="font-roboto-slab w-full outline-0 border-2 border-brownish/50 text-14px h-32px px-5px rounded-sm"
           value={value}
-          onChange={!props.hasAdded? (e) => {
-            setValue(e.target.value);
-          } : null}
+          onChange={
+            !props.hasAdded
+              ? (e) => {
+                  setValue(e.target.value);
+                }
+              : null
+          }
           disabled={!ready}
           placeholder="Search for an address"
         />
@@ -258,9 +290,13 @@ function LeftMenu(props) {
       <br />
       <br />
       <br />
-      {props.hasAdded? <button onClick={props.onClickSubmit}>Submit</button> : null}
+      {props.hasAdded ? (
+        <button onClick={props.onClickSubmit}>Submit</button>
+      ) : null}
       <br />
-      {props.hasAdded? <button onClick={props.onClickDiscard}>Discard</button> : null}
+      {props.hasAdded ? (
+        <button onClick={props.onClickDiscard}>Discard</button>
+      ) : null}
     </div>
   );
 }
