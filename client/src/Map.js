@@ -109,15 +109,8 @@ export default function Map() {
 
   return (
     <div className="h-full flex flex-row">
-<<<<<<< HEAD
       <LeftMenu hasAdded={hasAdded} onClickSubmit={onClickSubmit} onClickDiscard={onClickDiscard} />
       <Search handle_search_add_point={handle_search_add_point} hasAdded= {hasAdded}/>
-=======
-      <LeftMenu/>
-      <Search handle_search_add_point={handle_search_add_point} />
-      <button onClick = {onClickSubmit} > Submit </button>
-      <button onClick = {onClickDiscard} > Discard </button>
->>>>>>> 4e596ad236f5cf3fb7cd98ed47e5a17454b626c0
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={16}
