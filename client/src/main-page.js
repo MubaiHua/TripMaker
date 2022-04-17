@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './components/navBar'
 import Map from './Map.js'
 import AuthPage from './components/authPage';
+import RightMenu from './components/rightMenu';
 
 const MainPage  = () => {
   return (
@@ -11,7 +12,7 @@ const MainPage  = () => {
         <Map/>
       </div>
       <div className='w-1/3'>
-        RIGHT MENU
+        <RightMenu/>
       </div>
     </div>
   );
