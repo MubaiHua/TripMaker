@@ -12,7 +12,6 @@ import usePlaceAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-
 import {
   Combobox,
   ComboboxInput,
@@ -26,7 +25,7 @@ import axios from "axios";
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  width: "100vw",
+  width: "50vw",
   height: "100vh",
 };
 
@@ -115,11 +114,7 @@ export default function Map() {
               setSelected(null);
             }}
           >
-            <div>
-              <p>
-                Location lat:{selected.lat} lng:{selected.lng}
-              </p>
-            </div>
+            <div> Location lat:{selected.lat} lng:{selected.lng} </div>
           </InfoWindow>
         ) : null}
         <MapDirectionsRenderer
@@ -146,6 +141,7 @@ function Search(props) {
   });
 
   return (
+    <div className="absolute top-123px left-25px"> 
     <Combobox
       onSelect={async (address) => {
         setValue(address, false);
@@ -161,23 +157,24 @@ function Search(props) {
         console.log(address);
       }}
     >
-      <ComboboxInput
+      <ComboboxInput className="font-roboto-slab w-300px outline-0  border-2 border-brownish/50 text-14px h-32px px-5px w-11/12 rounded-sm"
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
         }}
         disabled={!ready}
-        placeholder="Enter an address"
+        placeholder="Search for an address"
       />
-      <ComboboxPopover>
-        <ComboboxList>
+      <ComboboxPopover className="">
+        <ComboboxList className="font-roboto-slabtext-14px border-green-yellow/75 border-2 rounded-sm">
           {status === "OK" &&
             data.map(({ id, description }) => (
-              <ComboboxOption key={id} value={description} />
+              <ComboboxOption className="hover:bg-green-yellow" key={id} value={description} />
             ))}
         </ComboboxList>
       </ComboboxPopover>
     </Combobox>
+    </div>
   );
 }
 
