@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import NavBar from './components/navBar'
 import LeftMenu from './components/leftMenu';
+import Map from './Map.js'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         RIGHT MENU
       </div>
       </div>
+      <Map/>
     </div>
   );
 }
