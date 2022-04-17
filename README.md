@@ -23,12 +23,8 @@ npm run dev
 [Yu Shen](https://github.com/SparkShen02) (y.shen@ucla.edu)<br />
 [Austin D'Acquisto](https://github.com/ajdacquisto) (austindacquisto@gmail.com)<br />
 [Mubai Hua](https://github.com/MubaiHua) (mubaihua515@g.ucla.edu)<br />
-[Yuxuan Qi](https://github.com/Yuxuan02) (dennistals2002@gmail.com)<br />
+[Yuxuan Qi](https://github.com/Yuxuan02) (dennistals2002@gmail.com)
 
 ### Reference
-For database connection:<br />
-https://www.youtube.com/watch?v=SQqSMDIzhaE&ab_channel=DevAndDesign
-
-For front-end design:<br />
-https://mui.com/components/<br />
-https://reactjs.org/docs/hello-world.html
+Google Maps API<br />
+https://developers.google.com/maps/documentation/javascript
