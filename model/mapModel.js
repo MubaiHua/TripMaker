@@ -8,7 +8,21 @@ const MapSchema = new Schema({
     },
 
     points: [{
-        type: String,
+        description: {
+            type: String,
+        },
+        lat: {
+            type: Number,
+            required: true,
+        },
+        lng: {
+            type: Number,
+            required: true,
+        },
+        index: {
+            type: Number,
+            required: true,
+        }
     }],
 })
 
