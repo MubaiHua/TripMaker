@@ -5,7 +5,7 @@ import AuthPage from './components/authPage';
 
 const MainPage  = () => {
   return (
-    <div className='flex-col h-screen overflow-hidden'>
+    <div className='flex-col h-screen overflow-clip'>
         <NavBar/>
       <div className='border-x-2 border-pastel-brown'>
         <Map/>

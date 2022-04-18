@@ -25,8 +25,8 @@ import RightPanel from "./right_panel";
 const libraries = ["places"];
 
 const mapContainerStyle = {
-  width: "60vw",
-  height: "100vh",
+  width: '100%',
+  height: '100%',
 };
 
 const center = {
@@ -130,50 +130,62 @@ export default function Map() {
   };
 
   return (
-    <div className="h-full flex flex-row">
-      <LeftMenu
-        hasAdded={hasAdded}
-        onClickSubmit={onClickSubmit}
-        onClickDiscard={onClickDiscard}
-      />
-      <Search
-        handle_search_add_point={handle_search_add_point}
-        hasAdded={hasAdded}
-      />
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={16}
-        center={center}
-        options={options}
-      >
-        {markers.map((marker) => (
-          <Marker
-            key={marker.order}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            onClick={() => {
-              setSelected(marker);
-            }}
+    <div class="grid grid-cols-5 h-full flex flex-row">
+
+      {/* Left Menu */}
+      <div id='LeftMenu' class='h-full grid grid-cols-1'>
+        <div class='h-fit'>
+          <LeftMenu
+            hasAdded={hasAdded}
+            onClickSubmit={onClickSubmit}
+            onClickDiscard={onClickDiscard}
+            handle_search_add_point={handle_search_add_point}
           />
-        ))}
-        {selected ? (
-          <InfoWindow
-            position={{ lat: selected.lat, lng: selected.lng }}
-            onCloseClick={() => {
-              setSelected(null);
-            }}
-          >
-            <div>
-              {" "}
-              Location lat:{selected.lat} lng:{selected.lng}{" "}
-            </div>
-          </InfoWindow>
-        ) : null}
-        <MapDirectionsRenderer
-          places={markers}
-          travelMode={window.google.maps.TravelMode.WALKING}
-        />
-      </GoogleMap>
-      <RightPanel markers={markers} resetMarkers={resetMarkers} />
+        </div>
+      </div>
+
+      {/* Map */}
+      <div id='Map' class='h-700px w-full p-2 col-span-3 '>
+        <GoogleMap
+          mapContainerStyle={mapContainerStyle}
+          zoom={16}
+          center={center}
+          options={options}
+        >
+          {markers.map((marker) => (
+            <Marker
+              key={marker.order}
+              position={{ lat: marker.lat, lng: marker.lng }}
+              onClick={() => {
+                setSelected(marker);
+              }}
+            />
+          ))}
+          {selected ? (
+            <InfoWindow
+              position={{ lat: selected.lat, lng: selected.lng }}
+              onCloseClick={() => {
+                setSelected(null);
+              }}
+            >
+              <div>
+                {" "}
+                Location lat:{selected.lat} lng:{selected.lng}{" "}
+              </div>
+            </InfoWindow>
+          ) : null}
+          <MapDirectionsRenderer
+            places={markers}
+            travelMode={window.google.maps.TravelMode.WALKING}
+          />
+        </GoogleMap>
+      </div>
+      
+      {/* Right panel */}
+      <div id='RightPanel'>
+        <RightPanel markers={markers} resetMarkers={resetMarkers} />
+      </div>
+
     </div>
   );
 }
@@ -193,9 +205,10 @@ function Search(props) {
   });
 
   return (
-    <div className="absolute top-123px left-25px">
+    <div>
       <Combobox
-        className="w-300px"
+        className="w-full"
+        id='combo-box'
         onSelect={async (address) => {
           setValue(address, false);
           clearSuggestions();
@@ -224,7 +237,7 @@ function Search(props) {
           placeholder="Search for an address"
         />
         <ComboboxPopover className="">
-          <ComboboxList className="font-roboto-slabtext-14px border-green-yellow/75 border-2 rounded-sm">
+          <ComboboxList className="font-roboto-slabtext-14px rounded-sm">
             {status === "OK" &&
               data.map(({ id, description }) => (
                 <ComboboxOption
@@ -279,24 +292,41 @@ function MapDirectionsRenderer(props) {
 
 function LeftMenu(props) {
   return (
-    <div className="w-1/4 bg-pastel-brown/50 border-r-2 border-pastel-brown p-20px">
-      <div className="font-roboto-slab mb-5px">Search for Destination</div>
-      <form className="flex flex-col">
-        <input
-          type="text"
-          className="hidden text-14px pl-5px font-roboto-slab border-2 border-pastel-brown-40 h-32px"
-        />
-      </form>
-      <br />
-      <br />
-      <br />
-      {props.hasAdded ? (
-        <button onClick={props.onClickSubmit}>Submit</button>
-      ) : null}
-      <br />
-      {props.hasAdded ? (
-        <button onClick={props.onClickDiscard}>Discard</button>
-      ) : null}
+    <div class='bg-pastel-brown/50 h-screen border-pastel-brown'>
+      <div className="grid grid-cols-1 flex border-r-2 p-4">
+        
+        <div className="font-roboto-slab max-h-32px">Search for Destination</div>
+
+        <div class=''>
+          <Search
+            handle_search_add_point={props.handle_search_add_point}
+            hasAdded={props.hasAdded}
+            id='search-bar'
+          />
+        </div>
+
+        <form className="hidden h-32px">
+          <input
+            type="text"
+            className="hidden text-14px pl-5px font-roboto-slab border-2 border-pastel-brown-40"
+          />
+        </form>
+
+        {props.hasAdded ? (
+          <div class='grid grid-cols-2 pt-4'>
+            {}
+            <div class='px-2 justify-self-end'>
+              <button class='self-center rounded-lg bg-indigo-300 px-2 py-1 hover:bg-indigo-400'
+              onClick={props.onClickSubmit}>Submit</button>
+            </div>
+            <div class='px-2 justify-self-start'>
+              <button class='self-center rounded-lg bg-indigo-300 px-2 py-1 hover:bg-indigo-400'
+              onClick={props.onClickDiscard}>Discard</button>
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
+
   );
 }

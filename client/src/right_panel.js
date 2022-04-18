@@ -9,8 +9,8 @@ const App = (props) => {
   useEffect(() => {
     let newList = []
     let markers = props.markers;
-    for(let i=0;i<markers.length;i++){
-      newList.push({id: i+1, title: "Marker"+alphabet[i], lat: markers[i].lat, lng:markers[i].lng});
+    for(let i=0; i<markers.length; i++){
+      newList.push({id: i+1, title: "Marker "+alphabet[i], lat: markers[i].lat, lng:markers[i].lng});
     }
     // console.log(newList)
     setList(newList);
